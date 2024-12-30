@@ -43,7 +43,7 @@ export const Filter = () => {
   return (
     <form>
       <div className="flex gap-2 p-4">
-        <Input placeholder="Filtro: Digite o número do ID Externo" />
+        <Input placeholder="ID Externo" />
 
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>

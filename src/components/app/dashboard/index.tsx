@@ -1,7 +1,8 @@
 import { Filter } from "@/components/filter";
 import { Transfer } from "@/types/transfer";
-import { TransferTable } from "../TransferTable";
+import { TransferTable } from "../../transfer-table";
 import { Button } from "@/components/ui/button";
+import { CreateTransferDailog } from "@/components/create-transfer-dailog/create-transfer-dailog";
 
 const data: Transfer[] = [
   {
@@ -104,9 +105,7 @@ export const Dashboard = () => {
 
         <div className="flex items-center">
           <Filter />
-          <Button className="bg-gray-900 hover:bg-gray-700">
-            Nova Transferência
-          </Button>
+          <CreateTransferDailog />
         </div>
         <TransferTable transfer={data} />
       </div>
