@@ -45,7 +45,7 @@ export const Filter = () => {
       <div className="flex gap-2 p-4">
         <Input
           className="w-1/4"
-          placeholder="Filtro: Digite o número do ID Interno"
+          placeholder="Filtro: Digite o número do ID Externo"
         />
 
         <Popover open={open} onOpenChange={setOpen}>
@@ -110,7 +110,10 @@ export const Filter = () => {
             />
           </PopoverContent>
         </Popover>
-        <Button className="bg-gray-900 hover:bg-emerald-500">
+        <Button className="bg-emerald-500 hover:bg-emerald-800">
+          Limpar o filtro
+        </Button>
+        <Button className="bg-gray-900 hover:bg-gray-700">
           Nova Transferência
         </Button>
       </div>

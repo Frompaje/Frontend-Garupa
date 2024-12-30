@@ -7,12 +7,21 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Transfer } from "@/types/transfer";
 
+type Props = {
+  transfer: Transfer[];
+};
 
-export const TransferTable = () => {
+export const TransferTable = ({ transfer }: Props) => {
+  const formatDate = (isoDate: any) => {
+    const date = new Date(isoDate).toLocaleString("pt-BR");
+
+    return date;
+  };
   return (
     <Table>
-      <TableCaption>Lista de transações</TableCaption>
+      <TableCaption className={transfer && "hidden"}>Lista de transações</TableCaption>
       <TableHeader>
         <TableRow>
           <TableHead>Data de vencimento</TableHead>
@@ -23,12 +32,14 @@ export const TransferTable = () => {
       </TableHeader>
 
       <TableBody>
-        <TableRow>
-          <TableCell>INV001</TableCell>
-          <TableCell>Paid</TableCell>
-          <TableCell>Credit Card</TableCell>
-          <TableCell>$250.00</TableCell>
-        </TableRow>
+        {transfer.map((value, index) => (
+          <TableRow className={index % 2 === 0 ? "bg-gray-100" : "bg-gray-50"}>
+            <TableCell>{formatDate(value.expected_on)}</TableCell>
+            <TableCell>{value.external_id}</TableCell>
+            <TableCell>{value.status}</TableCell>
+            <TableCell>R$ {value.amount}</TableCell>
+          </TableRow>
+        ))}
       </TableBody>
     </Table>
   );
