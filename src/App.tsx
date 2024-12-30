@@ -1,5 +1,11 @@
+import { MobileMenu } from "./components/header/menu-mobile";
+
 function App() {
-  return <h1 className="">Hello</h1>;
+  return (
+    <div className="bg-gray-900 h-screen">
+      <MobileMenu />
+    </div>
+  );
 }
 
 export default App;
