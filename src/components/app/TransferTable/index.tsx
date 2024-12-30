@@ -7,6 +7,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { colorStatus } from "@/helpers/colorStatus";
+import { formatDate } from "@/helpers/formatDate";
 import { Transfer } from "@/types/transfer";
 
 type Props = {
@@ -14,14 +16,12 @@ type Props = {
 };
 
 export const TransferTable = ({ transfer }: Props) => {
-  const formatDate = (isoDate: any) => {
-    const date = new Date(isoDate).toLocaleString("pt-BR");
 
-    return date;
-  };
   return (
     <Table>
-      <TableCaption className={transfer && "hidden"}>Lista de transações</TableCaption>
+      <TableCaption className={transfer && "hidden"}>
+        Lista de transações
+      </TableCaption>
       <TableHeader>
         <TableRow>
           <TableHead>Data de vencimento</TableHead>
@@ -36,7 +36,10 @@ export const TransferTable = ({ transfer }: Props) => {
           <TableRow className={index % 2 === 0 ? "bg-gray-100" : "bg-gray-50"}>
             <TableCell>{formatDate(value.expected_on)}</TableCell>
             <TableCell>{value.external_id}</TableCell>
-            <TableCell>{value.status}</TableCell>
+            <TableCell className={colorStatus(value.status)}>
+
+              {value.status}
+            </TableCell>
             <TableCell>R$ {value.amount}</TableCell>
           </TableRow>
         ))}
