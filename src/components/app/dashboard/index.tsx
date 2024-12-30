@@ -1,9 +1,7 @@
-
 import { Filter } from "@/components/filter";
-
 import { Transfer } from "@/types/transfer";
 import { TransferTable } from "../TransferTable";
-
+import { Button } from "@/components/ui/button";
 
 const data: Transfer[] = [
   {
@@ -98,15 +96,19 @@ const data: Transfer[] = [
   },
 ];
 
-
-
 export const Dashboard = () => {
   return (
     <main className="pt-24 p-4">
       <div className="bg-white  rounded h-[780px]">
         <h1 className="text-gray-900 p-4 font-bold">Ultimos transações</h1>
-        <Filter />
-        <TransferTable transfer={data}/>
+
+        <div className="flex items-center">
+          <Filter />
+          <Button className="bg-gray-900 hover:bg-gray-700">
+            Nova Transferência
+          </Button>
+        </div>
+        <TransferTable transfer={data} />
       </div>
     </main>
   );

@@ -8,6 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { colorStatus } from "@/helpers/colorStatus";
+import { formatAmount } from "@/helpers/formatAmount";
 import { formatDate } from "@/helpers/formatDate";
 import { Transfer } from "@/types/transfer";
 
@@ -16,7 +17,6 @@ type Props = {
 };
 
 export const TransferTable = ({ transfer }: Props) => {
-
   return (
     <Table>
       <TableCaption className={transfer && "hidden"}>
@@ -37,10 +37,9 @@ export const TransferTable = ({ transfer }: Props) => {
             <TableCell>{formatDate(value.expected_on)}</TableCell>
             <TableCell>{value.external_id}</TableCell>
             <TableCell className={colorStatus(value.status)}>
-
               {value.status}
             </TableCell>
-            <TableCell>R$ {value.amount}</TableCell>
+            <TableCell>R$ {formatAmount(value.amount)}</TableCell>
           </TableRow>
         ))}
       </TableBody>

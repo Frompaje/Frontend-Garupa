@@ -16,9 +16,9 @@ import { ChevronsUpDown, Check, CalendarIcon } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "../ui/input";
-
-import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 
 const listStatus = [
   {
@@ -41,12 +41,9 @@ export const Filter = () => {
   const [date, setDate] = useState<Date>();
 
   return (
-    <main>
+    <form>
       <div className="flex gap-2 p-4">
-        <Input
-          className="w-1/4"
-          placeholder="Filtro: Digite o número do ID Externo"
-        />
+        <Input placeholder="Filtro: Digite o número do ID Externo" />
 
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
@@ -94,11 +91,15 @@ export const Filter = () => {
             <Button
               variant={"outline"}
               className={cn(
-                "w-[280px] justify-start text-left font-normal",
+                "w-[380px] justify-start text-left font-normal",
                 !date && "text-muted-foreground"
               )}>
               <CalendarIcon />
-              {date ? format(date, "PPP") : <span>Pick a date</span>}
+              {date ? (
+                format(date, "PPP", { locale: ptBR })
+              ) : (
+                <span>Escolha a data</span>
+              )}
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0">
@@ -113,10 +114,7 @@ export const Filter = () => {
         <Button className="bg-emerald-500 hover:bg-emerald-800">
           Limpar o filtro
         </Button>
-        <Button className="bg-gray-900 hover:bg-gray-700">
-          Nova Transferência
-        </Button>
       </div>
-    </main>
+    </form>
   );
 };

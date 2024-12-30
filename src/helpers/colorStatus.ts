@@ -1,4 +1,4 @@
-export const colorStatus = (status: string): string => {
+export function colorStatus(status: string): string {
   switch (status.toLowerCase()) {
     case "completo":
       return "text-emerald-500";
@@ -9,4 +9,4 @@ export const colorStatus = (status: string): string => {
     default:
       return "text-gray-500";
   }
-};
+}
