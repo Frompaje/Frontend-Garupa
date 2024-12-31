@@ -1,10 +1,13 @@
 import { Dashboard } from "./components/app/dashboard";
+import { Providers } from "./providers";
 
 function App() {
   return (
-    <div className="bg-gray-900 h-screen">
-      <Dashboard />
-    </div>
+    <Providers>
+      <div className="bg-gray-900 h-screen">
+        <Dashboard />
+      </div>
+    </Providers>
   );
 }
 

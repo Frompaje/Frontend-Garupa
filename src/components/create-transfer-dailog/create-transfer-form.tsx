@@ -24,11 +24,18 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { Checkbox } from "../ui/checkbox";
 import { CurrencyInput } from "react-currency-mask";
+import { useMutation } from "@tanstack/react-query";
+import { TransferService } from "@/services/transfers";
+import { toast } from "sonner";
+import { AxiosError } from "axios";
 
 const createTransferSchema = z.object({
-  external_id: z.string().max(6).min(1, "ID Externo deve ter pelo menos 1 caractere."),
+  external_id: z
+    .string()
+    .max(6)
+    .min(1, "ID Externo deve ter pelo menos 6 caractere."),
   amount: z.string().min(1),
-  status: z.enum(["Completo", "Recusado", "Em analise"]),
+  status: z.enum(["Aprovado", "Recusado", "Em analise"]),
   expected_on: z.string().optional(),
 });
 
@@ -53,6 +60,19 @@ export const CreateTransferForm = () => {
   const [open, setOpen] = useState(false);
   const [isCheckedData, setIsCheckedData] = useState(false);
 
+  const { mutate, isPending } = useMutation({
+    mutationFn: TransferService.create,
+    onSuccess: async () => {
+      toast.success("Transferência criada com sucesso");
+    },
+    onError: async (error: AxiosError<{ message?: string }>) => {
+      toast.error(
+        error.response?.data?.message ||
+          "Algo deu errado. Tente novamente mais tarde."
+      );
+    },
+  });
+
   const {
     register,
     handleSubmit,
@@ -71,6 +91,12 @@ export const CreateTransferForm = () => {
     }
 
     console.log(data);
+    mutate({
+      external_id: data.external_id,
+      amount: data.amount,
+      status: data.status,
+      expected_on: data.expected_on,
+    });
   }
 
   function handleCheckedBoxData() {
@@ -172,7 +198,9 @@ export const CreateTransferForm = () => {
           )}
         />
         {errors.status && (
-          <span className="text-red-500 text-sm">{errors.status.message = "Status é obrigatório"}</span>
+          <span className="text-red-500 text-sm">
+            {(errors.status.message = "Status é obrigatório")}
+          </span>
         )}
       </div>
 
@@ -222,7 +250,9 @@ export const CreateTransferForm = () => {
         </label>
       </div>
 
-      <Button type="submit">Criar transferência</Button>
+      <Button type="submit" disabled={isPending}>
+        {isPending ? "Carregando..." : "Criar Transferência"}
+      </Button>
     </form>
   );
 };
