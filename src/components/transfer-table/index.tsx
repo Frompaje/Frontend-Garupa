@@ -10,7 +10,7 @@ import {
 import { colorStatus } from "@/helpers/colorStatus";
 import { formatDate } from "@/helpers/formatDate";
 import { Transfer } from "@/types/transfer";
-import { formatMoney } from "@/helpers/formatAmount";
+import { formatAmount } from "@/helpers/formatAmount";
 
 type Props = {
   transfer: Transfer[];
@@ -41,7 +41,7 @@ export const TransferTable = ({ transfer }: Props) => {
             <TableCell className={colorStatus(value.status)}>
               {value.status}
             </TableCell>
-            <TableCell>{formatMoney(value.amount)}</TableCell>
+            <TableCell>{formatAmount(value.amount)}</TableCell>
           </TableRow>
         ))}
       </TableBody>

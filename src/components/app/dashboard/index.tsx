@@ -88,7 +88,7 @@ const data: Transfer[] = [
   {
     id: "7654321",
     external_id: "123",
-    amount: 100.80,
+    amount: 100.8,
     expected_on: "2024-12-30T14:00:00Z",
     status: "Recusado",
     created_at: "2024-12-29 17:55:08.552217",

@@ -1,9 +1,8 @@
-import { DialogClose, DialogDescription } from "@radix-ui/react-dialog";
 import { Button } from "../ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogFooter,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -25,13 +24,6 @@ export const CreateTransferDailog = () => {
           </DialogDescription>
         </DialogHeader>
         <CreateTransferForm />
-        <DialogFooter>
-          <DialogClose className="border rounded-lg p-1 hover:bg-gray-100">
-            Cancelar
-          </DialogClose>
-
-          <Button type="submit">Salvar</Button>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

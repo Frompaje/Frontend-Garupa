@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
@@ -23,12 +23,13 @@ import { Calendar } from "../ui/calendar";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { Checkbox } from "../ui/checkbox";
+import { CurrencyInput } from "react-currency-mask";
 
 const createTransferSchema = z.object({
-  externalId: z.string().max(6).min(1),
-  amount: z.coerce.number(),
-  expectedOn: z.string().datetime().optional(),
+  external_id: z.string().max(6).min(1, "ID Externo deve ter pelo menos 1 caractere."),
+  amount: z.string().min(1),
   status: z.enum(["Completo", "Recusado", "Em analise"]),
+  expected_on: z.string().optional(),
 });
 
 type CreateTransferSchema = z.infer<typeof createTransferSchema>;
@@ -50,15 +51,25 @@ const listStatus = [
 
 export const CreateTransferForm = () => {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("");
-  const [date, setDate] = useState<Date>();
   const [isCheckedData, setIsCheckedData] = useState(false);
 
-  const { register, handleSubmit } = useForm<CreateTransferSchema>({
+  const {
+    register,
+    handleSubmit,
+    control,
+    watch,
+    formState: { errors },
+  } = useForm<CreateTransferSchema>({
     resolver: zodResolver(createTransferSchema),
   });
 
+  const statusValue = watch("status");
+
   function handleCreateTransfer(data: CreateTransferSchema) {
+    if (isCheckedData === true) {
+      data.expected_on = "";
+    }
+
     console.log(data);
   }
 
@@ -72,85 +83,137 @@ export const CreateTransferForm = () => {
       className="flex gap-4 flex-col">
       <div>
         <Label>ID Externo</Label>
-        <Input placeholder="DDT985"></Input>
+        <Input
+          maxLength={6}
+          id="external_id"
+          placeholder="DDT985"
+          {...register("external_id")}></Input>
+        {errors.external_id && (
+          <span className="text-red-500 text-sm">
+            {errors.external_id.message}
+          </span>
+        )}
       </div>
       <div>
         <Label>Valor da Transferência</Label>
-        <Input placeholder="R$ 180.00" type="number"></Input>
+        <Controller
+          name="amount"
+          control={control}
+          render={({ field }) => (
+            <CurrencyInput
+              onChangeValue={(event) => {
+                field.onChange(event);
+              }}
+              InputElement={
+                <Input
+                  placeholder="R$ 180.00"
+                  id="amount"
+                  type="text"
+                  {...register("amount")}></Input>
+              }
+            />
+          )}
+        />
+        {errors.amount && (
+          <span className="text-red-500 text-sm">
+            {(errors.amount.message = "Valor da transferência é obrigatório.")}
+          </span>
+        )}
       </div>
 
       <div className="flex flex-col">
-        <Popover open={open} onOpenChange={setOpen}>
-          <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              role="combobox"
-              aria-expanded={open}
-              className="w-[200px] justify-between">
-              {value
-                ? listStatus.find((status) => status.value === value)?.label
-                : "Selecione o status"}
-              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-            </Button>
-          </PopoverTrigger>
+        <Controller
+          name="status"
+          control={control}
+          render={({ field }) => (
+            <Popover open={open} onOpenChange={setOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  role="combobox"
+                  aria-expanded={open}
+                  className="w-[200px] justify-between">
+                  {statusValue
+                    ? listStatus.find((status) => status.value === statusValue)
+                        ?.label
+                    : "Selecione o status"}
+                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                </Button>
+              </PopoverTrigger>
 
-          <PopoverContent className="w-[200px] p-0">
-            <Command>
-              <CommandList>
-                <CommandEmpty>Status não encontrado</CommandEmpty>
-                <CommandGroup>
-                  {listStatus.map((status) => (
-                    <CommandItem
-                      key={status.value}
-                      value={status.value}
-                      onSelect={(currentValue) => {
-                        setValue(currentValue === value ? "" : currentValue);
-                        setOpen(false);
-                      }}>
-                      <Check
-                        className={cn(
-                          "mr-2 h-4 w-4",
-                          value === status.value ? "opacity-100" : "opacity-0"
-                        )}
-                      />
-                      {status.label}
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
-              </CommandList>
-            </Command>
-          </PopoverContent>
-        </Popover>
+              <PopoverContent className="w-[200px] p-0">
+                <Command>
+                  <CommandList>
+                    <CommandEmpty>Status não encontrado</CommandEmpty>
+                    <CommandGroup>
+                      {listStatus.map((status) => (
+                        <CommandItem
+                          key={status.value}
+                          value={status.value}
+                          onSelect={(currentValue) => {
+                            field.onChange(currentValue);
+                          }}>
+                          <Check
+                            className={cn(
+                              "mr-2 h-4 w-4",
+                              statusValue === status.value
+                                ? "opacity-100"
+                                : "opacity-0"
+                            )}
+                          />
+                          {status.label}
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
+          )}
+        />
+        {errors.status && (
+          <span className="text-red-500 text-sm">{errors.status.message = "Status é obrigatório"}</span>
+        )}
       </div>
 
       <div className={cn("block", isCheckedData && "hidden")}>
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button
-              variant={"outline"}
-              className={cn(
-                "w-[380px] justify-start text-left font-normal",
-                !date && "text-muted-foreground"
-              )}>
-              <CalendarIcon />
-              {date ? (
-                format(date, "PPP", { locale: ptBR })
-              ) : (
-                <span>Escolha a data da transferência</span>
-              )}
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-0">
-            <Calendar
-              mode="single"
-              selected={date}
-              onSelect={setDate}
-              initialFocus
-            />
-          </PopoverContent>
-        </Popover>
+        <Controller
+          control={control}
+          name="expected_on"
+          render={({ field }) => (
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant={"outline"}
+                  className={cn(
+                    "w-[380px] justify-start text-left font-normal",
+                    !field.value && "text-muted-foreground"
+                  )}>
+                  <CalendarIcon />
+                  {field.value ? (
+                    format(field.value, "PPP", { locale: ptBR })
+                  ) : (
+                    <span>Escolha a data da transferência</span>
+                  )}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0">
+                <Calendar
+                  mode="single"
+                  onSelect={(date) => field.onChange(date?.toISOString())}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
+          )}
+        />
+        {errors.expected_on && (
+          <span className="text-red-500 text-sm">
+            {errors.expected_on.message}
+          </span>
+        )}
       </div>
-      <div className="flex items-center space-x-2 mt-2">
+      <div className="flex items-center space-x-1">
         <Checkbox id="terms" onClick={handleCheckedBoxData} />
         <label
           htmlFor="terms"
@@ -158,6 +221,8 @@ export const CreateTransferForm = () => {
           Não desejo colocar data para essa transferência
         </label>
       </div>
+
+      <Button type="submit">Criar transferência</Button>
     </form>
   );
 };
