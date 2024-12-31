@@ -26,10 +26,8 @@ export const CreateTransferDailog = () => {
         </DialogHeader>
         <CreateTransferForm />
         <DialogFooter>
-          <DialogClose>
-            <Button type="button" variant="outline">
-              Cancelar
-            </Button>
+          <DialogClose className="border rounded-lg p-1 hover:bg-gray-100">
+            Cancelar
           </DialogClose>
 
           <Button type="submit">Salvar</Button>
