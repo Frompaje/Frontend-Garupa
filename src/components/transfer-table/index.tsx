@@ -8,9 +8,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { colorStatus } from "@/helpers/colorStatus";
-import { formatAmount } from "@/helpers/formatAmount";
 import { formatDate } from "@/helpers/formatDate";
 import { Transfer } from "@/types/transfer";
+import { formatMoney } from "@/helpers/formatAmount";
 
 type Props = {
   transfer: Transfer[];
@@ -33,13 +33,15 @@ export const TransferTable = ({ transfer }: Props) => {
 
       <TableBody>
         {transfer.map((value, index) => (
-          <TableRow className={index % 2 === 0 ? "bg-gray-100" : "bg-gray-50"}>
+          <TableRow
+            key={index}
+            className={index % 2 === 0 ? "bg-gray-100" : "bg-gray-50"}>
             <TableCell>{formatDate(value.expected_on)}</TableCell>
             <TableCell>{value.external_id}</TableCell>
             <TableCell className={colorStatus(value.status)}>
               {value.status}
             </TableCell>
-            <TableCell>R$ {formatAmount(value.amount)}</TableCell>
+            <TableCell>{formatMoney(value.amount)}</TableCell>
           </TableRow>
         ))}
       </TableBody>

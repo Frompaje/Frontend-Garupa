@@ -1,12 +1,11 @@
 import { Filter } from "@/components/filter";
 import { Transfer } from "@/types/transfer";
 import { TransferTable } from "../../transfer-table";
-import { Button } from "@/components/ui/button";
 import { CreateTransferDailog } from "@/components/create-transfer-dailog/create-transfer-dailog";
 
 const data: Transfer[] = [
   {
-    id: "12233",
+    id: "123",
     external_id: "123",
     amount: 100.5,
     expected_on: "2024-12-30T14:00:00Z",
@@ -15,7 +14,7 @@ const data: Transfer[] = [
     updated_at: "2024-12-29 17:55:08.552217",
   },
   {
-    id: "12323",
+    id: "321",
     external_id: "123",
     amount: 100.5,
     expected_on: "2024-12-30T14:00:00Z",
@@ -24,7 +23,7 @@ const data: Transfer[] = [
     updated_at: "2024-12-29 17:55:08.552217",
   },
   {
-    id: "1232",
+    id: "1234",
     external_id: "123",
     amount: 100.5,
     expected_on: "2024-12-30T14:00:00Z",
@@ -33,7 +32,7 @@ const data: Transfer[] = [
     updated_at: "2024-12-29 17:55:08.552217",
   },
   {
-    id: "12324",
+    id: "4321",
     external_id: "123",
     amount: 100.5,
     expected_on: "2024-12-30T14:00:00Z",
@@ -42,7 +41,7 @@ const data: Transfer[] = [
     updated_at: "2024-12-29 17:55:08.552217",
   },
   {
-    id: "12325",
+    id: "12345",
     external_id: "123",
     amount: 100.5,
     expected_on: "2024-12-30T14:00:00Z",
@@ -51,7 +50,7 @@ const data: Transfer[] = [
     updated_at: "2024-12-29 17:55:08.552217",
   },
   {
-    id: "1232534",
+    id: "54321",
     external_id: "123",
     amount: 100.5,
     expected_on: "2024-12-30T14:00:00Z",
@@ -60,7 +59,7 @@ const data: Transfer[] = [
     updated_at: "2024-12-29 17:55:08.552217",
   },
   {
-    id: "12325522",
+    id: "123456",
     external_id: "123",
     amount: 100.5,
     expected_on: "2024-12-30T14:00:00Z",
@@ -69,7 +68,7 @@ const data: Transfer[] = [
     updated_at: "2024-12-29 17:55:08.552217",
   },
   {
-    id: "12325522525",
+    id: "654321",
     external_id: "123",
     amount: 100.5,
     expected_on: "2024-12-30T14:00:00Z",
@@ -78,7 +77,7 @@ const data: Transfer[] = [
     updated_at: "2024-12-29 17:55:08.552217",
   },
   {
-    id: "123255225252",
+    id: "1234567",
     external_id: "123",
     amount: 100.5,
     expected_on: "2024-12-30T14:00:00Z",
@@ -87,7 +86,7 @@ const data: Transfer[] = [
     updated_at: "2024-12-29 17:55:08.552217",
   },
   {
-    id: "123255225252",
+    id: "7654321",
     external_id: "123",
     amount: 100.5,
     expected_on: "2024-12-30T14:00:00Z",

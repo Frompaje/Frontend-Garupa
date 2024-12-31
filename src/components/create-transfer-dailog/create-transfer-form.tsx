@@ -1,4 +1,11 @@
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
+import { CalendarIcon, Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Button } from "../ui/button";
 import {
   Popover,
   PopoverTrigger,
@@ -6,19 +13,25 @@ import {
 } from "@/components/ui/popover";
 import {
   Command,
-  CommandInput,
   CommandList,
   CommandEmpty,
   CommandGroup,
   CommandItem,
 } from "@/components/ui/command";
-import { ChevronsUpDown, Check, CalendarIcon } from "lucide-react";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "../ui/input";
-import { Calendar } from "@/components/ui/calendar";
+import { Calendar } from "../ui/calendar";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { Checkbox } from "../ui/checkbox";
+
+const createTransferSchema = z.object({
+  externalId: z.string().max(6).min(1),
+  amount: z.coerce.number(),
+  expectedOn: z.string().datetime().optional(),
+  status: z.enum(["Completo", "Recusado", "Em analise"]),
+});
+
+type CreateTransferSchema = z.infer<typeof createTransferSchema>;
 
 const listStatus = [
   {
@@ -35,16 +48,38 @@ const listStatus = [
   },
 ];
 
-export const Filter = () => {
+export const CreateTransferForm = () => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
   const [date, setDate] = useState<Date>();
+  const [isCheckedData, setIsCheckedData] = useState(false);
+
+  const { register, handleSubmit } = useForm<CreateTransferSchema>({
+    resolver: zodResolver(createTransferSchema),
+  });
+
+  function handleCreateTransfer(data: CreateTransferSchema) {
+    console.log(data);
+  }
+
+  function handleCheckedBoxData() {
+    setIsCheckedData(!isCheckedData);
+  }
 
   return (
-    <form>
-      <div className="flex gap-2 p-4">
-        <Input placeholder="ID Externo" />
+    <form
+      onSubmit={handleSubmit(handleCreateTransfer)}
+      className="flex gap-4 flex-col">
+      <div>
+        <Label>ID Externo</Label>
+        <Input placeholder="DDT985"></Input>
+      </div>
+      <div>
+        <Label>Valor da Transferência</Label>
+        <Input placeholder="R$ 180.00" type="number"></Input>
+      </div>
 
+      <div className="flex flex-col">
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button
@@ -61,7 +96,6 @@ export const Filter = () => {
 
           <PopoverContent className="w-[200px] p-0">
             <Command>
-              <CommandInput placeholder="Procurando o status..." />
               <CommandList>
                 <CommandEmpty>Status não encontrado</CommandEmpty>
                 <CommandGroup>
@@ -87,7 +121,9 @@ export const Filter = () => {
             </Command>
           </PopoverContent>
         </Popover>
+      </div>
 
+      <div className={cn("block", isCheckedData && "hidden")}>
         <Popover>
           <PopoverTrigger asChild>
             <Button
@@ -100,7 +136,7 @@ export const Filter = () => {
               {date ? (
                 format(date, "PPP", { locale: ptBR })
               ) : (
-                <span>Escolha a data</span>
+                <span>Escolha a data da transferência</span>
               )}
             </Button>
           </PopoverTrigger>
@@ -113,10 +149,14 @@ export const Filter = () => {
             />
           </PopoverContent>
         </Popover>
-        
-        <Button className="bg-emerald-500 hover:bg-emerald-800">
-          Limpar o filtro
-        </Button>
+      </div>
+      <div className="flex items-center space-x-2 mt-2">
+        <Checkbox id="terms" onClick={handleCheckedBoxData} />
+        <label
+          htmlFor="terms"
+          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+          Não desejo colocar data para essa transferência
+        </label>
       </div>
     </form>
   );

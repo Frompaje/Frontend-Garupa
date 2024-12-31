@@ -8,6 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
+import { CreateTransferForm } from "./create-transfer-form";
 
 export const CreateTransferDailog = () => {
   return (
@@ -23,7 +24,7 @@ export const CreateTransferDailog = () => {
             Cria uma nova transferência no sistema
           </DialogDescription>
         </DialogHeader>
-
+        <CreateTransferForm />
         <DialogFooter>
           <DialogClose>
             <Button type="button" variant="outline">
