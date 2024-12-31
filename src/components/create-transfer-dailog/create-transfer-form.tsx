@@ -127,8 +127,8 @@ export const CreateTransferForm = () => {
           control={control}
           render={({ field }) => (
             <CurrencyInput
-              onChangeValue={(event) => {
-                field.onChange(event);
+              onChangeValue={(__, _, amount) => {
+                field.onChange(amount);
               }}
               InputElement={
                 <Input
