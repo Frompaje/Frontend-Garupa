@@ -15,6 +15,5 @@ export type CreateTransferResponse = {
 export interface TransferCreated {
   external_id: string;
   amount: string;
-  status: string;
   expected_on?: string;
 }

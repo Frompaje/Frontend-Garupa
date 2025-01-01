@@ -28,8 +28,7 @@ const createTransferSchema = z.object({
     .string()
     .max(6)
     .min(1, "ID Externo deve ter pelo menos 6 caractere."),
-  amount: z.string().min(1),
-  status: z.enum(["Aprovado", "Recusado", "Em analise"]),
+  amount: z.string().min(3),
   expected_on: z.string().optional(),
 });
 
@@ -55,7 +54,6 @@ export const CreateTransferForm = () => {
     register,
     handleSubmit,
     control,
-    watch,
     formState: { errors },
   } = useForm<CreateTransferSchema>({
     resolver: zodResolver(createTransferSchema),
@@ -66,11 +64,9 @@ export const CreateTransferForm = () => {
       data.expected_on = undefined;
     }
 
-    console.log(data);
     mutate({
       external_id: data.external_id,
       amount: data.amount,
-      status: data.status,
       expected_on: data.expected_on,
     });
   }
@@ -87,6 +83,7 @@ export const CreateTransferForm = () => {
         <Label>ID Externo</Label>
         <Input
           maxLength={6}
+          minLength={6}
           id="external_id"
           placeholder="DDT985"
           {...register("external_id")}></Input>
