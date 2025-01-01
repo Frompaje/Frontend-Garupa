@@ -3,7 +3,6 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { CalendarIcon, Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import {
@@ -11,13 +10,7 @@ import {
   PopoverTrigger,
   PopoverContent,
 } from "@/components/ui/popover";
-import {
-  Command,
-  CommandList,
-  CommandEmpty,
-  CommandGroup,
-  CommandItem,
-} from "@/components/ui/command";
+
 import { useState } from "react";
 import { Calendar } from "../ui/calendar";
 import { format } from "date-fns";
@@ -28,6 +21,7 @@ import { useMutation } from "@tanstack/react-query";
 import { TransferService } from "@/services/transfers";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
+import { CalendarIcon } from "lucide-react";
 
 const createTransferSchema = z.object({
   external_id: z
@@ -41,23 +35,7 @@ const createTransferSchema = z.object({
 
 type CreateTransferSchema = z.infer<typeof createTransferSchema>;
 
-const listStatus = [
-  {
-    value: "Aprovado",
-    label: "Aprovado",
-  },
-  {
-    value: "Em analise",
-    label: "Em analise",
-  },
-  {
-    value: "Recusado",
-    label: "Recusado",
-  },
-];
-
 export const CreateTransferForm = () => {
-  const [open, setOpen] = useState(false);
   const [isCheckedData, setIsCheckedData] = useState(false);
 
   const { mutate, isPending } = useMutation({
@@ -82,8 +60,6 @@ export const CreateTransferForm = () => {
   } = useForm<CreateTransferSchema>({
     resolver: zodResolver(createTransferSchema),
   });
-
-  const statusValue = watch("status");
 
   function handleCreateTransfer(data: CreateTransferSchema) {
     if (isCheckedData === true) {
@@ -143,63 +119,6 @@ export const CreateTransferForm = () => {
         {errors.amount && (
           <span className="text-red-500 text-sm">
             {(errors.amount.message = "Valor da transferência é obrigatório.")}
-          </span>
-        )}
-      </div>
-
-      <div className="flex flex-col">
-        <Controller
-          name="status"
-          control={control}
-          render={({ field }) => (
-            <Popover open={open} onOpenChange={setOpen}>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  role="combobox"
-                  aria-expanded={open}
-                  className="w-[200px] justify-between">
-                  {statusValue
-                    ? listStatus.find((status) => status.value === statusValue)
-                        ?.label
-                    : "Selecione o status"}
-                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                </Button>
-              </PopoverTrigger>
-
-              <PopoverContent className="w-[200px] p-0">
-                <Command>
-                  <CommandList>
-                    <CommandEmpty>Status não encontrado</CommandEmpty>
-                    <CommandGroup>
-                      {listStatus.map((status) => (
-                        <CommandItem
-                          key={status.value}
-                          value={status.value}
-                          onSelect={(currentValue) => {
-                            field.onChange(currentValue);
-                          }}>
-                          <Check
-                            className={cn(
-                              "mr-2 h-4 w-4",
-                              statusValue === status.value
-                                ? "opacity-100"
-                                : "opacity-0"
-                            )}
-                          />
-                          {status.label}
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  </CommandList>
-                </Command>
-              </PopoverContent>
-            </Popover>
-          )}
-        />
-        {errors.status && (
-          <span className="text-red-500 text-sm">
-            {(errors.status.message = "Status é obrigatório")}
           </span>
         )}
       </div>
