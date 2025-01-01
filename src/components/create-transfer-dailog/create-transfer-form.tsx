@@ -87,7 +87,7 @@ export const CreateTransferForm = () => {
 
   function handleCreateTransfer(data: CreateTransferSchema) {
     if (isCheckedData === true) {
-      data.expected_on = "";
+      data.expected_on = undefined;
     }
 
     console.log(data);
