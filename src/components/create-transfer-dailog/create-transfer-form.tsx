@@ -34,13 +34,18 @@ const createTransferSchema = z.object({
 
 type CreateTransferSchema = z.infer<typeof createTransferSchema>;
 
-export const CreateTransferForm = () => {
+export const CreateTransferForm = ({
+  closeDialog,
+}: {
+  closeDialog: () => void;
+}) => {
   const [isCheckedData, setIsCheckedData] = useState(false);
 
   const { mutate, isPending } = useMutation({
     mutationFn: TransferService.create,
     onSuccess: async () => {
       toast.success("Transferência criada com sucesso");
+      closeDialog();
     },
     onError: async (error: AxiosError<{ message?: string }>) => {
       toast.error(

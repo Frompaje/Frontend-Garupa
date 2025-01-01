@@ -9,19 +9,21 @@ import {
 } from "@/components/ui/table";
 import { colorStatus } from "@/helpers/colorStatus";
 import { formatDate } from "@/helpers/formatDate";
-import { Transfer } from "@/types/transfer";
 import { formatAmount } from "@/helpers/formatAmount";
+import { useQuery } from "@tanstack/react-query";
+import { TransferService } from "@/services/transfers";
+import { Transfer } from "@/types/transfer";
 
-type Props = {
-  transfer: Transfer[];
-};
+export const TransferTable = () => {
+  const { data, isLoading } = useQuery<Transfer[]>({
+    queryKey: ["Table-Transfers"],
+    queryFn: () => TransferService.listAllTranfers(),
+    staleTime: 1000 * 60 * 5, // 5 MIN,
+  });
 
-export const TransferTable = ({ transfer }: Props) => {
   return (
     <Table>
-      <TableCaption className={transfer && "hidden"}>
-        Lista de transações
-      </TableCaption>
+      <TableCaption>Lista de transações</TableCaption>
       <TableHeader>
         <TableRow>
           <TableHead>Data de vencimento</TableHead>
@@ -32,7 +34,15 @@ export const TransferTable = ({ transfer }: Props) => {
       </TableHeader>
 
       <TableBody>
-        {transfer.map((value, index) => (
+        {isLoading && (
+          <TableRow>
+            <TableCell colSpan={4} className="text-center">
+              Carregando...
+            </TableCell>
+          </TableRow>
+        )}
+        
+        {data?.map((value, index) => (
           <TableRow
             key={index}
             className={index % 2 === 0 ? "bg-gray-100" : "bg-gray-50"}>

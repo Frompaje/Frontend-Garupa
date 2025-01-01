@@ -14,7 +14,6 @@ export class TransferService {
 
   static async listAllTranfers() {
     const response = await API.get("/transfers/list");
-
     return response.data;
   }
 }

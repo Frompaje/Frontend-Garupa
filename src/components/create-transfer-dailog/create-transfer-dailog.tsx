@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "../ui/button";
 import {
   Dialog,
@@ -10,8 +11,12 @@ import {
 import { CreateTransferForm } from "./create-transfer-form";
 
 export const CreateTransferDailog = () => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const closeDialog = () => setIsDialogOpen(false);
+
   return (
-    <Dialog>
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger>
         <Button className=" hover:bg-gray-700">Nova Transferência</Button>
       </DialogTrigger>
@@ -23,7 +28,7 @@ export const CreateTransferDailog = () => {
             Cria uma nova transferência no sistema
           </DialogDescription>
         </DialogHeader>
-        <CreateTransferForm />
+        <CreateTransferForm closeDialog={closeDialog} />
       </DialogContent>
     </Dialog>
   );
