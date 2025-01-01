@@ -10,14 +10,13 @@ import {
   PopoverTrigger,
   PopoverContent,
 } from "@/components/ui/popover";
-
 import { useState } from "react";
 import { Calendar } from "../ui/calendar";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { Checkbox } from "../ui/checkbox";
 import { CurrencyInput } from "react-currency-mask";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { TransferService } from "@/services/transfers";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
@@ -41,10 +40,15 @@ export const CreateTransferForm = ({
 }) => {
   const [isCheckedData, setIsCheckedData] = useState(false);
 
+  const queryClient = useQueryClient();
+
   const { mutate, isPending } = useMutation({
     mutationFn: TransferService.create,
     onSuccess: async () => {
       toast.success("Transferência criada com sucesso");
+
+      queryClient.invalidateQueries({ queryKey: ["Table-Transfers"] });
+
       closeDialog();
     },
     onError: async (error: AxiosError<{ message?: string }>) => {

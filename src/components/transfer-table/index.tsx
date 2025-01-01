@@ -41,10 +41,10 @@ export const TransferTable = () => {
             </TableCell>
           </TableRow>
         )}
-        
+
         {data?.map((value, index) => (
           <TableRow
-            key={index}
+            key={value.id}
             className={index % 2 === 0 ? "bg-gray-100" : "bg-gray-50"}>
             <TableCell>{formatDate(value.expected_on)}</TableCell>
             <TableCell>{value.external_id}</TableCell>

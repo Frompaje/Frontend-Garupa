@@ -1,5 +1,4 @@
 import { Filter } from "@/components/filter";
-import { Transfer } from "@/types/transfer";
 import { TransferTable } from "../../transfer-table";
 import { CreateTransferDailog } from "@/components/create-transfer-dailog/create-transfer-dailog";
 
@@ -13,7 +12,7 @@ export const Dashboard = () => {
           <Filter />
           <CreateTransferDailog />
         </div>
-        <TransferTable  />
+        <TransferTable />
       </div>
     </main>
   );
