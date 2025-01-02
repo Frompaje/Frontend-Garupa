@@ -21,9 +21,13 @@ datas de vencimento.
 
 ## Como rodar
 
-É necessário criar uma cópia deste repositório com o git para a sua máquina local.
+É necessário criar uma cópia deste repositório com o git para a sua máquina local. Após clonar o projeto, crie seu arquivo `.env` e coloque as variavies ambiente
 
-Execute o comando abaixo no terminal para instalar as dependências do projeto
+```
+VITE_API=http://localhost:3333
+```
+
+Com as variáveis configuradas, execute o comando abaixo no terminal para instalar as dependências do projeto
 
 ```
 npm i
