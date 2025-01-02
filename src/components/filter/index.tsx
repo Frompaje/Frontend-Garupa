@@ -22,7 +22,7 @@ export const SearchFilter = () => {
 
   return (
     <Input
-      className="w-1/2 ml-4"
+      className=" w-3/4 sm:w-1/2"
       placeholder="ID Externo"
       onChange={handleInputChange}
     />

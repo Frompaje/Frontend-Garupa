@@ -103,7 +103,7 @@ export const CreateTransferForm = ({
         )}
       </div>
       <div>
-        <Label>Valor da Transferência</Label>
+        <Label>Valor da transferência</Label>
         <Controller
           name="amount"
           control={control}
@@ -176,7 +176,7 @@ export const CreateTransferForm = ({
       </div>
 
       <Button type="submit" disabled={isPending}>
-        {isPending ? "Carregando..." : "Criar Transferência"}
+        {isPending ? "Carregando..." : "Criar transferência"}
       </Button>
     </form>
   );

@@ -18,14 +18,16 @@ export const CreateTransferDailog = () => {
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
-        <Button className=" hover:bg-gray-700">Nova Transferência</Button>
+        <Button className="hover:bg-gray-700 w-3/4 sm:w-1/5">
+          Nova transferência
+        </Button>
       </DialogTrigger>
 
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Nova Transferência </DialogTitle>
+          <DialogTitle>Nova transferência </DialogTitle>
           <DialogDescription>
-            Cria uma nova transferência no sistema
+            Criar uma nova transferência no sistema
           </DialogDescription>
         </DialogHeader>
         <CreateTransferForm closeDialog={closeDialog} />
