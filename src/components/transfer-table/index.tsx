@@ -36,7 +36,7 @@ export const TransferTable = () => {
   });
 
   return (
-    <div className="flex flex-col justify-between min-h-[670px] mr-4 ml-4">
+    <div className="flex flex-col justify-between min-h-[635px] mr-4 ml-4">
       <Table>
         <TableHeader>
           <TableRow>

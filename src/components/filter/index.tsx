@@ -17,7 +17,7 @@ export const SearchFilter = () => {
       const newSearchParams = new URLSearchParams(searchParams);
       newSearchParams.set("search", value);
       setSearchParams(newSearchParams);
-    }, 400); 
+    }, 400);
   }
 
   return (
