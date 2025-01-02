@@ -1,13 +1,23 @@
 import { useSearchParams } from "react-router-dom";
 import { Input } from "../ui/input";
+import { useRef } from "react";
 
 export const SearchFilter = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const debounceRef = useRef<NodeJS.Timeout | null>(null);
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const newSearchParams = new URLSearchParams(searchParams);
-    newSearchParams.set("search", e.target.value);
-    setSearchParams(newSearchParams);
+    const value = e.target.value;
+
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current);
+    }
+
+    debounceRef.current = setTimeout(() => {
+      const newSearchParams = new URLSearchParams(searchParams);
+      newSearchParams.set("search", value);
+      setSearchParams(newSearchParams);
+    }, 400); 
   }
 
   return (
