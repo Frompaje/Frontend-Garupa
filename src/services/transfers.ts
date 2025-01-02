@@ -1,5 +1,5 @@
 import { API } from "@/lib/axios";
-import { TransferCreated } from "@/types/transfer";
+import { ListTransfersResponse, Meta, TransferCreated } from "@/types/transfer";
 
 export class TransferService {
   static async create({ amount, external_id, expected_on }: TransferCreated) {
@@ -12,8 +12,11 @@ export class TransferService {
     return response.data;
   }
 
-  static async listAllTranfers() {
-    const response = await API.get("/transfers/list");
-    return response.data;
+  static async list(params: { page?: string; take?: string; search?: string }) {
+    const { data } = await API.get<ListTransfersResponse>("/transfers/list", {
+      params,
+    });
+
+    return data;
   }
 }

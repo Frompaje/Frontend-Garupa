@@ -17,7 +17,7 @@ export const CreateTransferDailog = () => {
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-      <DialogTrigger>
+      <DialogTrigger asChild>
         <Button className=" hover:bg-gray-700">Nova Transferência</Button>
       </DialogTrigger>
 

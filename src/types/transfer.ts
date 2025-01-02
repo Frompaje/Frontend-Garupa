@@ -17,3 +17,16 @@ export interface TransferCreated {
   amount: string;
   expected_on?: string;
 }
+
+
+export interface ListTransfersResponse {
+  data: Transfer[]
+  meta: Meta
+}
+
+
+export interface Meta {
+  page: number
+  take: number
+  total: number
+}
