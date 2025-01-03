@@ -46,3 +46,9 @@ Agora, para iniciar o projeto, rode o comando abaixo no terminal:
 ```
 npm run dev
 ```
+
+## 🎥 Demonstração do Projeto
+
+https://github.com/user-attachments/assets/d2f287d9-2536-45dc-a9c4-5309448506f4
+
+
