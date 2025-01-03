@@ -1,5 +1,7 @@
-export function formatDate(isoDate: any) {
-  const date = new Date(isoDate).toLocaleString("pt-BR");
+export function formatDate(isDate: string | undefined) {
+  if (isDate) {
+    return new Date(isDate).toLocaleString("pt-BR");
+  }
 
-  return date;
+  return isDate;
 }
