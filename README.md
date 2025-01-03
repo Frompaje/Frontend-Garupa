@@ -7,7 +7,7 @@ full-stack, onde os usuários podem criar transferências e verificar
 datas de vencimento.
 
 
-## Deploy 🌍
+## 🌍 Deploy 
 Se você não quiser baixar e configurar o projeto localmente, disponibilizamos o serviço completo online!
 
 - **Frontend**: Acesse 👉 [garupa.vercel.app](https://garupa.vercel.app)
